@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: payhub
+  datasource:
+    url: jdbc:postgresql://postgres:5432/payhub
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: payhub-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  redis:
+    host: redis
+    port: 6379
+server:
+  port: 8080
+jwt:
+  secret: your-very-secure-secret-key
+  expiration: 86400000
+resilience4j:
+  circuitbreaker:
+    instances:
+      payhub:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
