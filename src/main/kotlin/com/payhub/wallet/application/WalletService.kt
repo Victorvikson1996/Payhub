@@ -32,7 +32,7 @@ class WalletService(
         return newBalance
     }
 
-    fun getBlance(userId: Long): Double {
+    fun getBalance(userId: Long): Double {
         val key = "wallet:$userId"
         return redisTemplate.opsForValue().get(key)?.toDouble() ?: throw WalletException("Wallet not found for user $userId")
     }
